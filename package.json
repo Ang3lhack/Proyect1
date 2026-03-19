@@ -1,0 +1,8 @@
+{
+  "name": "fridge-whisperer",
+  "version": "1.0.0",
+  "description": "Tu salvador de sobras con IA",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1"
+  }
+}

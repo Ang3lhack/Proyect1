@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FridgeWhisperer - Tu salvador de sobras</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧑‍🍳 FridgeWhisperer</h1>
+            <p>Dime qué tienes en la nevera y te diré qué delicia cenaremos hoy.</p>
+        </header>
+
+        <main>
+            <div class="input-section">
+                <textarea id="ingredients-input" placeholder="Ej: media cebolla, dos huevos, un tomate y pan duro..." rows="4"></textarea>
+                <button id="generate-btn">Generar Receta 🚀</button>
+            </div>
+
+            <div id="loading" class="hidden">
+                <p>Pensando en una receta deliciosa...</p>
+            </div>
+
+            <div id="recipe-result" class="hidden">
+                </div>
+        </main>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
