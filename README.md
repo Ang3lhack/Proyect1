@@ -87,4 +87,9 @@ Follow these steps to deploy your own instance of FridgeWhisperer for free.
 5. Enjoy your custom, zero-waste meal!
 
 ---
-*Created with ❤️ to reduce food waste.*
+*Created with ❤️ to reduce food waste.
+Link to the published page and screenshot of it in operation*
+(https://storied-bonbon-01342d.netlify.app/)
+<p aling= "center">
+<img width="1203" height="684" alt="comida1" src="https://github.com/user-attachments/assets/2472368a-75ad-4280-9238-537f2dfb5a81" />
+</p>
