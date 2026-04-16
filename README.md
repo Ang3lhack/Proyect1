@@ -93,7 +93,17 @@ This guide will walk you through deploying your own instance of **FridgeWhispere
     ```
 
 ---
+<p aling= "center">
 
+<img width="1358" height="682" alt="refri1" src="https://github.com/user-attachments/assets/8dd6285f-48e1-414f-81a7-6fd91491fea8" />
+
+</p> 
+
+<p aling= "center">
+
+<img width="1361" height="671" alt="refri2" src="https://github.com/user-attachments/assets/93c55d6a-8952-47ad-8c9e-db98304d8a76" />
+
+</p>
 ## 👤 Author
 **Angel Gael Garcia Ramos** *Computer Engineering Studen*
 
