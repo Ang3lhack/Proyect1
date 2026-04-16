@@ -1,8 +1,10 @@
 :root {
     --primary-color: #ff6b6b;
+    --primary-hover: #ee5253;
     --bg-color: #fdfbf7;
     --text-color: #333;
     --card-bg: #ffffff;
+    --border-color: #ddd;
 }
 
 body {
@@ -10,84 +12,95 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     margin: 0;
-    padding: 20px;
+    padding: 0; /* Quitamos el padding para la barra superior */
+}
+
+/* --- Barra de Navegación --- */
+.top-nav {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 40px;
+}
+
+.nav-btn {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.nav-btn:hover { background-color: rgba(255,255,255,0.1); }
+
+/* --- Ventana Modal de Login --- */
+.modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.6);
     display: flex;
     justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
-.container {
-    max-width: 600px;
-    width: 100%;
-}
-
-header {
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
     text-align: center;
-    margin-bottom: 30px;
 }
 
-h1 {
-    color: var(--primary-color);
-    margin-bottom: 5px;
-}
-
-.input-section {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-textarea {
+.modal-content input {
     width: 100%;
-    padding: 15px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
-    resize: vertical;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
     box-sizing: border-box;
 }
 
-textarea:focus {
-    outline: none;
-    border-color: var(--primary-color);
+.modal-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
 }
 
-button {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 15px;
-    font-size: 18px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-weight: bold;
+.text-btn {
+    background: none; border: none; color: #666; cursor: pointer; text-decoration: underline;
 }
 
-button:hover {
-    background-color: #ee5253;
-}
+.error-text { color: red; font-size: 14px; margin-top: 10px; }
 
-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
+/* --- Resto del diseño (El que ya teníamos) --- */
+.container { max-width: 650px; margin: 0 auto; padding: 20px; }
+header { text-align: center; margin-bottom: 30px; }
+h1 { color: var(--primary-color); margin-bottom: 5px; }
+.hidden { display: none !important; }
+.input-section { display: flex; flex-direction: column; gap: 15px; }
 
-#recipe-result {
-    margin-top: 30px;
-    padding: 20px;
-    background-color: var(--card-bg);
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    line-height: 1.6;
+.image-upload-wrapper {
+    border: 2px dashed var(--border-color); border-radius: 8px; text-align: center; position: relative; cursor: pointer; background-color: var(--card-bg);
 }
+.image-upload-label { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 120px; padding: 10px; }
+.upload-icon { font-size: 40px; margin-bottom: 10px; }
+#image-preview { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--card-bg); border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+#image-preview img { max-height: 80%; object-fit: contain; margin-bottom: 10px; }
 
-.hidden {
-    display: none;
-}
+textarea { width: 100%; padding: 15px; border: 2px solid var(--border-color); border-radius: 8px; font-size: 16px; box-sizing: border-box; resize: vertical; }
+button { background-color: var(--primary-color); color: white; border: none; padding: 15px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+button:hover { background-color: var(--primary-hover); }
+.secondary-btn { background-color: #6c757d; padding: 10px; }
+.secondary-btn:hover { background-color: #5a6268; }
 
-#loading {
-    text-align: center;
-    margin-top: 20px;
-    font-style: italic;
-    color: #666;
-}
+#recipe-result { margin-top: 30px; padding: 30px; background-color: var(--card-bg); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); line-height: 1.6; }
+#save-recipe-btn { width: 100%; margin-top: 20px; background-color: #28a745; }
+#save-recipe-btn:hover { background-color: #218838; }

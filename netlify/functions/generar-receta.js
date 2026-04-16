@@ -7,31 +7,63 @@ exports.handler = async function(event, context) {
 
     try {
         const body = JSON.parse(event.body);
-        const ingredientes = body.ingredientes;
+        const ingredientsText = body.ingredientesTexto;
+        const ingredientsImageBase64 = body.ingredientesImagenBase64;
         const apiKey = process.env.GEMINI_API_KEY;
 
+        if (!apiKey) {
+            return { statusCode: 500, body: JSON.stringify({ error: "API Key no encontrada en el entorno." }) };
+        }
+
+        // Inicializar Gemini con la clave API 
         const genAI = new GoogleGenerativeAI(apiKey);
         
-        // ¡AQUÍ ESTÁ LA SOLUCIÓN! Usamos el modelo exacto que vimos en tu consola
+        // AQUÍ ESTÁ LA CORRECCIÓN: Usamos el modelo 2.5 que tu cuenta permite
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-        const prompt = `
-        Eres un chef experto creativo y un defensor de la reducción del desperdicio de alimentos.
-        El usuario tiene los siguientes ingredientes en su nevera/despensa: ${ingredientes}.
-        
-        Tu tarea es crear una receta deliciosa y fácil de seguir utilizando principalmente estos ingredientes. 
-        Puedes asumir que el usuario tiene ingredientes básicos de despensa como sal, pimienta, aceite y agua.
-        
-        Formato de salida requerido:
-        1. Un título creativo para la receta.
-        2. Tiempo estimado de preparación.
-        3. Lista de ingredientes (indicando los aportados y los básicos).
-        4. Instrucciones paso a paso numeradas.
-        
-        Responde en español y de forma entusiasta.
-        `;
+        let prompt;
+        const generativeParts = [];
 
-        const result = await model.generateContent(prompt);
+        if (ingredientsImageBase64) {
+            // Caso 1: Hay imagen
+            const imagePart = {
+                inlineData: {
+                    data: ingredientsImageBase64,
+                    mimeType: "image/jpeg" 
+                }
+            };
+            generativeParts.push(imagePart);
+
+            prompt = `
+            Eres un chef experto creativo. He adjuntado una foto de los ingredientes que tengo. 
+            Analiza la imagen para identificarlos.
+            ${ingredientsText ? `Además de lo que ves en la foto, también tengo: ${ingredientsText}.` : ""}
+            
+            Crea una receta deliciosa y fácil. Puedes asumir que tengo sal, pimienta, aceite y agua.
+            Formato requerido (en español):
+            # Título Creativo de la Receta
+            ### Tiempo estimado: XX minutos
+            **Ingredientes:** (Lista con viñetas)
+            **Instrucciones:** (Lista numerada paso a paso)
+            `;
+        } else {
+            // Caso 2: Solo texto
+            prompt = `
+            Eres un chef experto creativo. El usuario tiene estos ingredientes: ${ingredientsText}.
+            
+            Crea una receta deliciosa y fácil. Puedes asumir que tiene sal, pimienta, aceite y agua.
+            Formato requerido (en español):
+            # Título Creativo de la Receta
+            ### Tiempo estimado: XX minutos
+            **Ingredientes:** (Lista con viñetas)
+            **Instrucciones:** (Lista numerada paso a paso)
+            `;
+        }
+
+        generativeParts.push(prompt);
+
+        // Generar contenido
+        const result = await model.generateContent(generativeParts);
         const responseText = result.response.text();
 
         return {
@@ -41,7 +73,10 @@ exports.handler = async function(event, context) {
         };
 
     } catch (error) {
-        console.error("Error llamando a Gemini:", error);
-        return { statusCode: 500, body: JSON.stringify({ error: "Error al generar la receta." }) };
+        console.error("Error crítico llamando a Gemini:", error);
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ error: "Error interno del servidor", details: error.message })
+        };
     }
 };

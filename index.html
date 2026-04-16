@@ -3,31 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FridgeWhisperer - Tu salvador de sobras</title>
+    <title>FridgeWhisperer - Tu salvador de sobras con IA</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
+
+    <nav class="top-nav">
+        <div id="user-info" class="hidden">
+            <span id="user-email"></span>
+            <button id="view-saved-btn" class="nav-btn" style="background-color: var(--primary-color); border: none;">Mis Recetas 📚</button>
+            <button id="logout-btn" class="nav-btn">Cerrar Sesión</button>
+        </div>
+        <div id="auth-controls">
+            <button id="show-login-btn" class="nav-btn">Iniciar Sesión / Registro</button>
+        </div>
+    </nav>
+
+    <div id="auth-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Bienvenido a FridgeWhisperer</h2>
+            <p>Accede para guardar tus recetas favoritas y reducir el desperdicio.</p>
+            
+            <input type="email" id="auth-email" placeholder="Correo electrónico">
+            <input type="password" id="auth-password" placeholder="Contraseña (mínimo 6 caracteres)">
+            
+            <div class="modal-buttons">
+                <button id="login-btn">Entrar</button>
+                <button id="signup-btn" class="secondary-btn">Crear cuenta nueva</button>
+                <button id="close-modal-btn" class="text-btn">Cancelar</button>
+            </div>
+            <p id="auth-message" class="error-text"></p>
+        </div>
+    </div>
+
+    <div id="saved-recipes-modal" class="modal hidden">
+        <div class="modal-content" style="max-width: 800px; width: 95%; max-height: 90vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-bottom: 20px;">
+                <h2 style="margin: 0; color: var(--primary-color);">Mis Recetas Guardadas</h2>
+                <button id="close-saved-modal-btn" class="secondary-btn" style="padding: 5px 15px;">Cerrar ✖</button>
+            </div>
+            
+            <div id="saved-recipes-loading" class="hidden">Cargando tus recetas...</div>
+            <div id="saved-recipes-empty" class="hidden" style="text-align: center; color: #666; padding: 40px 0;">Aún no has guardado ninguna receta. ¡Genera una y guárdala!</div>
+            
+            <div id="saved-recipes-list" style="display: flex; flex-direction: column; gap: 20px; text-align: left;"></div>
+        </div>
+    </div>
+
     <div class="container">
         <header>
             <h1>🧑‍🍳 FridgeWhisperer</h1>
-            <p>Dime qué tienes en la nevera y te diré qué delicia cenaremos hoy.</p>
+            <p>Sube una foto de tu nevera o escribe qué tienes a la mano.</p>
         </header>
 
         <main>
             <div class="input-section">
-                <textarea id="ingredients-input" placeholder="Ej: media cebolla, dos huevos, un tomate y pan duro..." rows="4"></textarea>
-                <button id="generate-btn">Generar Receta 🚀</button>
+                <div class="image-upload-wrapper">
+                    <label for="ingredients-image" class="image-upload-label">
+                        <span class="upload-icon">📷</span>
+                        <span id="upload-status-text">Subir foto de ingredientes (opcional)</span>
+                    </label>
+                    <input type="file" id="ingredients-image" accept="image/*" class="hidden">
+                    <div id="image-preview" class="hidden">
+                        <img src="" alt="Vista previa de ingredientes">
+                        <button id="remove-image-btn" class="secondary-btn" style="margin-top: 5px;">Quitar foto</button>
+                    </div>
+                </div>
+
+                <textarea id="ingredients-input" placeholder="Ej: media cebolla, un poco de queso, pollo..." rows="3"></textarea>
+                
+                <button id="generate-btn">Generar Receta con IA 🚀</button>
             </div>
 
             <div id="loading" class="hidden">
-                <p>Pensando en una receta deliciosa...</p>
+                <p>Analizando tus ingredientes... ¡esto olerá muy bien!</p>
             </div>
 
             <div id="recipe-result" class="hidden">
-                </div>
+                <div id="recipe-content"></div>
+                <button id="save-recipe-btn" class="hidden" style="width: 100%; margin-top: 20px; background-color: #28a745;">💾 Guardar Receta en mi perfil</button>
+            </div>
         </main>
     </div>
 
-    <script src="js/script.js"></script>
+    <script type="module" src="js/script.js"></script>
 </body>
 </html>
